@@ -1,3 +1,7 @@
+const shouldRedirecToGroceryList = () =>
+  !!localStorage.getItem(APP_CONSTANTS.currentUser);
+
+if (shouldRedirecToGroceryList()) window.location.href = "../index.html";
 const signInBtn = document.getElementById("signInBtn");
 
 const isUserPresent = (name) =>
