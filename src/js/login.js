@@ -14,7 +14,7 @@ const setCurrentUser = (name) =>
   localStorage.setItem(APP_CONSTANTS.currentUser, name);
 
 const isPasswordCorrect = (name, password) =>
-  JSON.parse(localStorage.getItem(APP_CONSTANTS.users)).find(
+  JSON.parse(localStorage.getItem(APP_CONSTANTS.users))?.find(
     (user) => user.name === name
   )?.password === password;
 
@@ -22,9 +22,14 @@ const onSignInClick = (event) => {
   event.preventDefault();
   const userName = document.getElementById("username").value;
   const password = document.getElementById("password").value;
-  if (isUserPresent(userName) && isPasswordCorrect(password)) {
+  if (isUserPresent(userName) && isPasswordCorrect(userName, password)) {
     setCurrentUser(userName);
     window.location.href = "../index.html";
+  } else if (
+    isUserPresent(userName) &&
+    !isPasswordCorrect(userName, password)
+  ) {
+    alert("Incorrect Password");
   } else {
     const newUsers = JSON.parse(localStorage.getItem(APP_CONSTANTS.users))
       ? JSON.parse(localStorage.getItem(APP_CONSTANTS.users))

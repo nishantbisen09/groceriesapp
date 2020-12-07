@@ -1,7 +1,10 @@
-body {
-  background-color: #9ad3bc;
+* {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
+}
+
+body {
+  background-color: #9ad3bc;
 }
 
 .login-container {
