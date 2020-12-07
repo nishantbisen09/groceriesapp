@@ -2,7 +2,7 @@ const shouldRedirectUser = () => {
   return !localStorage.getItem(APP_CONSTANTS.currentUser);
 };
 
-if (shouldRedirectUser()) window.location.href = "login.html";
+if (shouldRedirectUser()) window.location.href = "pages/login.html";
 const addBtn = document.getElementById("addBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 
@@ -119,7 +119,7 @@ const renderUserName = () => {
 
 const onLogoutButtonClick = () => {
   localStorage.removeItem(APP_CONSTANTS.currentUser);
-  window.location.href = "login.html";
+  window.location.href = "pages/login.html";
 };
 
 createGroceriesList();

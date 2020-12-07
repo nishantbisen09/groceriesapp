@@ -20,7 +20,7 @@ const onSignInClick = (event) => {
   const password = document.getElementById("password").value;
   if (isUserPresent(userName) && isPasswordCorrect(password)) {
     setCurrentUser(userName);
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   } else {
     const newUsers = JSON.parse(localStorage.getItem(APP_CONSTANTS.users))
       ? JSON.parse(localStorage.getItem(APP_CONSTANTS.users))
@@ -33,7 +33,7 @@ const onSignInClick = (event) => {
     newUsers.push({ name: userName, password });
     localStorage.setItem(APP_CONSTANTS.users, JSON.stringify(newUsers));
     setCurrentUser(userName);
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   }
 };
 signInBtn.addEventListener("click", onSignInClick);
