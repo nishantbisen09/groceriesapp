@@ -1,8 +1,9 @@
 const shouldRedirecToGroceryList = () =>
   !!localStorage.getItem(APP_CONSTANTS.currentUser);
 
-if (shouldRedirecToGroceryList()) window.location.href = "../index.html";
-const signInBtn = document.getElementById("signInBtn");
+if (shouldRedirecToGroceryList()) redirectToGroceryList();
+
+const loginForm = document.getElementById("loginForm");
 
 const isUserPresent = (name) =>
   !!localStorage.getItem(APP_CONSTANTS.users) &&
@@ -18,31 +19,54 @@ const isPasswordCorrect = (name, password) =>
     (user) => user.name === name
   )?.password === password;
 
+const getOldUsersFromLocalStorage = () =>
+  JSON.parse(localStorage.getItem(APP_CONSTANTS.users))
+    ? JSON.parse(localStorage.getItem(APP_CONSTANTS.users))
+    : [];
+
+const redirectToGroceryList = () => (window.location.href = "../index.html");
+
+const validateMaxNoOfUserData = () => {
+  const users = getOldUsersFromLocalStorage();
+  if (users.length === APP_CONSTANTS.maximumNoOfUserData)
+    removeOldestUserData();
+};
+
+const removeOldestUserData = () => {
+  const users = getOldUsersFromLocalStorage();
+  localStorage.removeItem(users[0].name);
+  users.splice(0, 1);
+  updateUserList(users);
+};
+
+const updateUserList = (users) =>
+  localStorage.setItem(APP_CONSTANTS.users, JSON.stringify(users));
+
+const addUser = (name, password) => {
+  const users = getOldUsersFromLocalStorage();
+  users.push({ name, password });
+  updateUserList(users);
+};
+
 const onSignInClick = (event) => {
   event.preventDefault();
   const userName = document.getElementById("username").value;
   const password = document.getElementById("password").value;
   if (isUserPresent(userName) && isPasswordCorrect(userName, password)) {
     setCurrentUser(userName);
-    window.location.href = "../index.html";
+    redirectToGroceryList();
   } else if (
     isUserPresent(userName) &&
     !isPasswordCorrect(userName, password)
   ) {
-    alert("Incorrect Password");
+    alert(APP_CONSTANTS.incorrectPasswordMessage);
   } else {
-    const newUsers = JSON.parse(localStorage.getItem(APP_CONSTANTS.users))
-      ? JSON.parse(localStorage.getItem(APP_CONSTANTS.users))
-      : [];
-
-    if (newUsers.length === 3) {
-      localStorage.removeItem(newUsers[newUsers.length - 1].name);
-      newUsers.splice(newUsers.length - 1, 1);
-    }
-    newUsers.push({ name: userName, password });
-    localStorage.setItem(APP_CONSTANTS.users, JSON.stringify(newUsers));
+    validateMaxNoOfUserData();
+    addUser(userName, password);
     setCurrentUser(userName);
-    window.location.href = "../index.html";
+    redirectToGroceryList();
   }
 };
-signInBtn.addEventListener("click", onSignInClick);
+
+//event listeners
+loginForm.addEventListener("submit", onSignInClick);
