@@ -1,6 +1,8 @@
 const shouldRedirecToGroceryList = () =>
   !!localStorage.getItem(APP_CONSTANTS.currentUser);
 
+const redirectToGroceryList = () => (window.location.href = "../index.html");
+
 if (shouldRedirecToGroceryList()) redirectToGroceryList();
 
 const loginForm = document.getElementById("loginForm");
@@ -23,8 +25,6 @@ const getOldUsersFromLocalStorage = () =>
   JSON.parse(localStorage.getItem(APP_CONSTANTS.users))
     ? JSON.parse(localStorage.getItem(APP_CONSTANTS.users))
     : [];
-
-const redirectToGroceryList = () => (window.location.href = "../index.html");
 
 const validateMaxNoOfUserData = () => {
   const users = getOldUsersFromLocalStorage();
