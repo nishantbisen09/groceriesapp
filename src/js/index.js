@@ -1,10 +1,9 @@
 const shouldRedirectUser = () => {
   return !localStorage.getItem(APP_CONSTANTS.currentUser);
 };
+const redirectToLoginPage = () => (window.location.href = "pages/login.html");
 
 if (shouldRedirectUser()) redirectToLoginPage();
-
-const redirectToLoginPage = () => (window.location.href = "pages/login.html");
 
 const getCurrentUserData = () =>
   JSON.parse(
